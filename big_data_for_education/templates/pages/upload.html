@@ -12,3 +12,64 @@
 
   <BR><p><a href="{% url 'home' %}">Return to home</a></p></BR>
 {% endblock %}
+
+
+
+<body><BR><div class="content"><form id="myForm" action="comment.php" method="post"> 
+  Name: <input type="text" name="name" /><BR>
+  Email: <input type="text" name="email" /></BR><BR>
+  <input type="submit" value="Submit" /></BR>
+</form></BR>
+
+
+<style>
+  .content {
+      height: 200px;
+      width: 400px;
+  
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -100px;
+      margin-left: -100px;
+  }
+  </style>
+  
+  <body><BR><div class="content">
+    <form method="post" enctype="multipart/form-data">
+      <button type="submit">Upload</button>
+    </form></BR>
+  
+  
+  
+  <button onclick="myFunction()">Submit</button>
+  
+  <div id="thankYou">
+    You have opted out of sharing your data. Please allow 3-5 business days for your data to be deleted. Thank you.
+  </div>
+  <BR>
+  
+  
+  
+  
+  <button onclick="goBack()">Return to Digital Mirror</button></div></body>
+  
+  
+  
+  
+  <script>
+  function goBack() {
+      window.history.back();
+  }
+  </script>
+  
+  <script>
+  function myFunction() {
+      var x = document.getElementById("thankYou");
+      if (x.style.display === "none") {
+          x.style.display = "block";
+      } else {
+          x.style.display = "none";
+      }
+  }
+  </script>

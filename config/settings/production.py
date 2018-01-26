@@ -155,7 +155,11 @@ CACHES = {
             'IGNORE_EXCEPTIONS': True,  # mimics memcache behavior.
                                         # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
         }
-    }
+    },
+    'machina_attachments': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/tmp',
+    },
 }
 
 

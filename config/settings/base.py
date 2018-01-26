@@ -8,6 +8,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import environ
+from machina import get_apps as get_machina_apps
+from machina import MACHINA_MAIN_TEMPLATE_DIR
+from machina import MACHINA_MAIN_STATIC_DIR
 
 ROOT_DIR = environ.Path(__file__) - 3  # (big_data_for_education/config/settings/base.py - 3 = big_data_for_education/)
 APPS_DIR = ROOT_DIR.path('big_data_for_education')
@@ -56,7 +59,12 @@ LOCAL_APPS = [
     # custom users app
     'big_data_for_education.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-]
+
+    # Machina related apps:
+    'mptt',
+    'haystack',
+    'widget_tweaks',
+] + get_machina_apps()
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -71,6 +79,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # Machina
+    'machina.apps.forum_permission.middleware.ForumPermissionMiddleware',
 ]
 
 # MIGRATIONS CONFIGURATION
@@ -149,6 +159,7 @@ TEMPLATES = [
         # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
         'DIRS': [
             str(APPS_DIR.path('templates')),
+            MACHINA_MAIN_TEMPLATE_DIR,
         ],
         'OPTIONS': {
             # See: https://docs.djangoproject.com/en/dev/ref/settings/#template-debug
@@ -170,6 +181,8 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
                 # Your stuff: custom template context processors go here
+                # Machina
+                'machina.core.context_processors.metadata',
             ],
         },
     },
@@ -189,6 +202,7 @@ STATIC_URL = '/static/'
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
     str(APPS_DIR.path('static')),
+    MACHINA_MAIN_STATIC_DIR,
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
@@ -282,3 +296,9 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
+    },
+}
